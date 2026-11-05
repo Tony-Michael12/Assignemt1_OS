@@ -25,9 +25,9 @@ public class WaitingRoom {
 
         if (!spaces.deadline(0)) {
             if (p.getPatientId() != 0) {
-                System.out.println("The waiting room is full.");
+                System.out.println("The waiting room is full");
                 System.out.println("P" + p.getPatientId()
-                        + " is waiting outside for an available seat.");
+                        + "is waiting outside for an available seat");
             }
 
             spaces.P();
@@ -41,7 +41,7 @@ public class WaitingRoom {
 
         if (p.getPatientId() != 0) {
             System.out.println("P" + p.getPatientId()
-                    + " entered the waiting room.");
+                    + "entered the waiting room");
         }
 
         mutex.V();
