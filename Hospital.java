@@ -21,7 +21,7 @@ public class Hospital {
         int patientCount = input.nextInt();
 
         if (capacity <= 0 || doctorCount <= 0 || patientCount <= 0) {
-            System.out.println("All values must be positive.");
+            System.out.println("All values must be positive");
             input.close();
             return;
         }
@@ -37,7 +37,7 @@ public class Hospital {
 
         Patient[] patients = new Patient[patientCount];
 
-        System.out.println("Patients arriving:");
+        System.out.println("Patients arriving :");
 
         for (int i = 0; i < patientCount; i++) {
             patients[i] = new Patient(i + 1, waitingRoom);
@@ -67,8 +67,8 @@ public class Hospital {
             doctor.join();
         }
 
-        print("All patients have been treated.");
-        print("Simulation completed.");
+        print("All patients have been treated");
+        print("Simulation completed");
 
         input.close();
     }
