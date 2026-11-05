@@ -16,7 +16,6 @@ public class Doctor extends Thread {
     public void run(){
 
         while (true){
-
             Patient p = w_Room.consume();
 
             if (p.getPatientId() == 0) {
@@ -26,36 +25,35 @@ public class Doctor extends Thread {
             String dn = "Doctor " + doctor_Id;
             String pn = "P" + p.getPatientId();
 
-            System.out.println(dn+ " is assigned to " + pn + ".");
-            System.out.println(dn+ " is trying to acquire a treatment room.");
+            System.out.println(dn+ " is assigned to " + pn);
+            System.out.println(dn+ " is trying to acquire a treatment room" );
 
             if (t_Rooms.reserveARoom(3000)) {
 
-                System.out.println(dn + "acquired a treatment room.");
-                System.out.println(dn + "begins treating " + pn + ".");
+                System.out.println(dn + "acquired a treatment room" );
+                System.out.println(dn + "begins treating " + pn );
 
                 try {
                     sleep(1000 + rand.nextInt(4000));
                 }
                 catch (InterruptedException e) {}
-
-                System.out.println(dn + " finished treating " + pn + ".");
+                System.out.println(dn + " finished treating " + pn );
 
                 t_Rooms.leavingRoom();
-                System.out.println(dn + " released the treatment room.");
+                System.out.println(dn + " released the treatment room");
 
                 p.treatmentFinished();
-                System.out.println(dn + " is now available.");
+                System.out.println(dn + " is now available" );
 
             }
             else {
 
-                System.out.println(dn + " could not acquire a treatment room.");
-                System.out.println(dn + " is sending " + pn + " back to the waiting room.");
+                System.out.println(dn + " could not acquire a treatment room ");
+                System.out.println(dn + " is sending " + pn + " back to the waiting room ");
 
                 p.sendBack();
 
-                System.out.println(dn + " is now available.");
+                System.out.println(dn + " is now available ");
             }
         }
 
