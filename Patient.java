@@ -33,12 +33,12 @@ public class Patient extends Thread {
 
     @Override
     public void run() {
-        System.out.println("P" + id + " arrived.");
+        System.out.println("P" + id + "arrived");
 
         enterWaitingRoom();
 
         finished.P();
 
-        System.out.println("P" + id + " left.");
+        System.out.println("P" + id + "left");
     }
 }
