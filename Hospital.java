@@ -11,7 +11,6 @@ public class Hospital {
 
         Scanner input = new Scanner(System.in);
 
-        // Read input
         System.out.print("Waiting room capacity: ");
         int capacity = input.nextInt();
 
@@ -27,18 +26,15 @@ public class Hospital {
             return;
         }
 
-        // Create shared resources
         WaitingRoom waitingRoom = new WaitingRoom(capacity);
         TreatmentRooms treatmentRooms = new TreatmentRooms(2);
 
-        // Create doctors
         Doctor[] doctors = new Doctor[doctorCount];
 
         for (int i = 0; i < doctorCount; i++) {
             doctors[i] = new Doctor(i + 1, waitingRoom, treatmentRooms);
         }
 
-        // Create patients
         Patient[] patients = new Patient[patientCount];
 
         System.out.println("Patients arriving:");
@@ -50,28 +46,23 @@ public class Hospital {
 
         System.out.println();
 
-        // Start doctors
         for (Doctor doctor : doctors) {
             doctor.start();
         }
 
-        // Start patients
         for (Patient patient : patients) {
             patient.start();
             Thread.sleep(200);
         }
 
-        // Wait for all real patients to finish
         for (Patient patient : patients) {
             patient.join();
         }
 
-        // Send one termination signal to each doctor
         for (int i = 0; i < doctorCount; i++) {
             waitingRoom.produce(new Patient(0, waitingRoom));
         }
 
-        // Wait for all doctors to terminate
         for (Doctor doctor : doctors) {
             doctor.join();
         }
