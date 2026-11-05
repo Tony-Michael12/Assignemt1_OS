@@ -23,7 +23,6 @@ public class Doctor extends Thread {
 
             Patient patient = waitingRoom.consume();
 
-            // Check for termination signal
             if (patient.getPatientId() == 0)
                 break;
 
