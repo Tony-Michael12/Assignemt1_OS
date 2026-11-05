@@ -1,77 +1,63 @@
-
 import java.util.Random;
 
 public class Doctor extends Thread {
+    private int doctor_Id;
+    private WaitingRoom w_Room;
+    private TreatmentRooms t_Rooms;
+    private Random rand = new Random();
 
-    private int doctorId;
-    private WaitingRoom waitingRoom;
-    private TreatmentRooms treatmentRooms;
-    private Random random = new Random();
-
-    public Doctor(int doctorId, WaitingRoom waitingRoom,
-                  TreatmentRooms treatmentRooms) {
-
-        this.doctorId = doctorId;
-        this.waitingRoom = waitingRoom;
-        this.treatmentRooms = treatmentRooms;
+    public Doctor(int doctorId, WaitingRoom waitingRoom, TreatmentRooms treatmentRooms) {
+        this.doctor_Id = doctorId;
+        this.w_Room = waitingRoom;
+        this.t_Rooms = treatmentRooms;
     }
 
     @Override
-    public void run() {
+    public void run(){
 
-        while (true) {
+        while (true){
 
-            Patient patient = waitingRoom.consume();
+            Patient p = w_Room.consume();
 
-            if (patient.getPatientId() == 0)
+            if (p.getPatientId() == 0) {
                 break;
+            }
 
-            String doctorName = "Doctor " + doctorId;
-            String patientName = "P" + patient.getPatientId();
+            String dn = "Doctor " + doctor_Id;
+            String pn = "P" + p.getPatientId();
 
-            Hospital.print(doctorName + " is assigned to "
-                    + patientName + ".");
+            System.out.println(dn+ " is assigned to " + pn + ".");
+            System.out.println(dn+ " is trying to acquire a treatment room.");
 
-            Hospital.print(doctorName
-                    + " is trying to acquire a treatment room.");
+            if (t_Rooms.reserveARoom(3000)) {
 
-            if (treatmentRooms.reserveARoom(3000)) {
-
-                Hospital.print(doctorName + " acquired a treatment room.");
-
-                Hospital.print(doctorName + " begins treating "
-                        + patientName + ".");
+                System.out.println(dn + "acquired a treatment room.");
+                System.out.println(dn + "begins treating " + pn + ".");
 
                 try {
-                    sleep(4000 + random.nextInt(2000));
-                } catch (InterruptedException e) {
+                    sleep(1000 + rand.nextInt(4000));
                 }
+                catch (InterruptedException e) {}
 
-                Hospital.print(doctorName + " finished treating "
-                        + patientName + ".");
+                System.out.println(dn + " finished treating " + pn + ".");
 
-                treatmentRooms.leavingRoom();
+                t_Rooms.leavingRoom();
+                System.out.println(dn + " released the treatment room.");
 
-                Hospital.print(doctorName
-                        + " released the treatment room.");
+                p.treatmentFinished();
+                System.out.println(dn + " is now available.");
 
-                patient.treatmentFinished();
+            }
+            else {
 
-                Hospital.print(doctorName + " is now available.");
+                System.out.println(dn + " could not acquire a treatment room.");
+                System.out.println(dn + " is sending " + pn + " back to the waiting room.");
 
-            } else {
+                p.sendBack();
 
-                Hospital.print(doctorName
-                        + " could not acquire a treatment room.");
-
-                Hospital.print(doctorName
-                        + " is sending " + patientName
-                        + " back to the waiting room.");
-
-                patient.sendBack();
-
-                Hospital.print(doctorName + " is now available.");
+                System.out.println(dn + " is now available.");
             }
         }
+
     }
 }
